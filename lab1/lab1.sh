@@ -3,33 +3,35 @@
 CATALOG="${1:-plecak}"
 
 if [[ -d "${CATALOG}" ]]; then
-	echo "Catalog exists"
+	echo "Katalog istnieje"
 else
-	echo "Catalog: ${CATALOG} created"
-	mkdir -p "${HOME}/bash/${CATALOG}"
+	echo "Katalog: ${CATALOG} utworzony"
+	mkdir -p "${CATALOG}"
 fi
 
 if [[ ! -f items ]]; then
-	echo "File: 'items' not found!"
+	echo "Plik: 'items' nie zostal znaleziony!"
 	exit 1
 fi
 
 THINGS=$(cat items)
 
 COUNTER=0
+FILE_COUNTER=0
 
 for THING in ${THINGS}; do
-	echo "Current item: ${THING}"
+
 	if [[ $((COUNTER % 2)) -eq 0 ]]; then
 
 		touch "${CATALOG}/${THING}"
-		echo "Tworze plik regularny: ${THING}"
+		echo "Plik regularny: ${THING}"
+		FILE_COUNTER=$((FILE_COUNTER + 1))
 	else
 
 		mkdir -p "${CATALOG}/${THING}"
-		echo "Tworze katalog: ${THING}"
+		echo "Katalog: ${THING}"
 	fi
 	COUNTER=$((COUNTER + 1))
 done
 
-echo "$(date +"%Y") utworzylem ${COUNTER} plikow/katalogow."
+echo "$(date +"%Y") utworzylem ${FILE_COUNTER} plikow."
